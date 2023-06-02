@@ -14,35 +14,65 @@ public:
 		similarity_checker_->SetStrings(std::move(str1), std::move(str2));
 	}
 
-	size_t GetScore()
+	size_t GetLengthScore() const
 	{
-		return similarity_checker_->GetScore();
+		return similarity_checker_->GetLengthScore();
 	}
+
+	size_t GetAlphaScore() const
+	{
+		return similarity_checker_->GetAlphaScore();
+	}
+
 
 private:
 	std::unique_ptr<SimilarityChecker> similarity_checker_;
 };
 
 TEST_F(SimilarityCheckerTest, LengthTest1) {
-	int expected = 60;
+	const int expected = 60;
 	SetStrings("ASD", "DSA");
-	EXPECT_EQ(GetScore(), expected);
+	EXPECT_EQ(GetLengthScore(), expected);
 }
 
 TEST_F(SimilarityCheckerTest, LengthTest2) {
-	int expected = 0;
+	const int expected = 0;
 	SetStrings("A", "BB");
-	EXPECT_EQ(GetScore(), expected);
+	EXPECT_EQ(GetLengthScore(), expected);
 }
 
 TEST_F(SimilarityCheckerTest, LengthTest3) {
-	int expected = 20;
+	const int expected = 20;
 	SetStrings("AAABB", "BAA");
-	EXPECT_EQ(GetScore(), expected);
+	EXPECT_EQ(GetLengthScore(), expected);
 }
 
 TEST_F(SimilarityCheckerTest, LengthTest4) {
-	int expected = 30;
+	const int expected = 30;
 	SetStrings("AA", "AAA");
-	EXPECT_EQ(GetScore(), expected);
+	EXPECT_EQ(GetLengthScore(), expected);
+}
+
+TEST_F(SimilarityCheckerTest, AlphaTest1) {
+	const int expected = 40;
+	SetStrings("ASD", "DSA");
+	EXPECT_EQ(GetAlphaScore(), expected);
+}
+
+TEST_F(SimilarityCheckerTest, AlphaTest2) {
+	const int expected = 0;
+	SetStrings("A", "BB");
+	EXPECT_EQ(GetAlphaScore(), expected);
+}
+
+TEST_F(SimilarityCheckerTest, AlphaTest3) {
+	const int expected = 40;
+	SetStrings("AAABB", "BAA");
+	EXPECT_EQ(GetAlphaScore(), expected);
+}
+
+TEST_F(SimilarityCheckerTest, AlphaTest4) {
+	const int expected = 20;
+	SetStrings("AA", "AAE");
+	EXPECT_EQ(GetAlphaScore(), expected);
 }
