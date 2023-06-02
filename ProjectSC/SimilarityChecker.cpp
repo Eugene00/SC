@@ -1,0 +1,5 @@
+class SimilarityChecker
+{
+public:
+
+};
